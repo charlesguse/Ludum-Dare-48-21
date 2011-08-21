@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace RunEscape
 {
@@ -33,6 +34,8 @@ namespace RunEscape
 
         bool previousEscapeWasPressed;
         public SpriteFont font;
+        private SoundEffect jumpSound;
+        private SoundEffect landSound;
         private float jumpTimer;
         private float jumpApexTimer;
         private PlayerAction previousAction;
@@ -55,6 +58,8 @@ namespace RunEscape
         {
             this.Texture = content.Load<Texture2D>("ObjectBackground");
             this.font = content.Load<SpriteFont>("Word");
+            this.jumpSound = content.Load<SoundEffect>("Jump");
+            this.landSound = content.Load<SoundEffect>("Land");
 
             Vector2 textSize = this.font.MeasureString(DrawAction);
 
@@ -120,7 +125,11 @@ namespace RunEscape
                         this.Position.Y = word.Position.Y - this.Collision.Height;
                         jumpTimer = 0.0f;
                         if (currentAction != PlayerAction.Stopped)
+                        {
+                            if (currentAction == PlayerAction.Jumping)
+                                landSound.Play();
                             currentAction = PlayerAction.Running;
+                        }
                     }
 
                     break;
@@ -142,6 +151,7 @@ namespace RunEscape
                     currentAction = PlayerAction.Running;
                 else if (currentAction == PlayerAction.Running)
                 {
+                    this.jumpSound.Play();
                     currentAction = PlayerAction.Jumping;
                     jumpHigher = true;
                     jumpTimer = 0.0f;

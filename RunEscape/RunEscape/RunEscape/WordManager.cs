@@ -18,6 +18,7 @@ namespace RunEscape
 
         public Queue<Word> StreamingWords;
         Queue<LevelWordPair> UpcomingWords;
+        Queue<Birds> Birds;
 
         public int Score { get; set; }
 
@@ -36,6 +37,7 @@ namespace RunEscape
 
             StreamingWords = new Queue<Word>();
             UpcomingWords = new Queue<LevelWordPair>();
+            Birds = new Queue<Birds>();
         }
 
         public void LoadContent(ContentManager content)
@@ -134,9 +136,16 @@ namespace RunEscape
                 word.Update(gameTime);
             }
 
+            foreach (var bird in Birds)
+            {
+                bird.CurrentSpeed = speed;
+                bird.Update(gameTime);
+            }
+
             AddNewWords();
             
             RemoveDeadWords();
+            RemoveDeadBirds();
         }
 
         private void AddNewWords()
@@ -160,7 +169,11 @@ namespace RunEscape
                 var newWords = WordifyLine(newPosition);
 
                 foreach (var word in newWords)
+                {
                     StreamingWords.Enqueue(word);
+                    if (word.WordToDisplay.Keyword)
+                        Birds.Enqueue(new Birds(word));
+                }
             }
         }
 
@@ -170,6 +183,14 @@ namespace RunEscape
             {
                 StreamingWords.Dequeue();
                 Score++;
+            }
+        }
+
+        public void RemoveDeadBirds()
+        {
+            while (Birds.Count > 0 && !Birds.Peek().Alive)
+            {
+                Birds.Dequeue();
             }
         }
 
@@ -184,6 +205,11 @@ namespace RunEscape
                     break;
                 word.Draw(gameTime, spriteBatch);
             }
+            foreach (var bird in Birds)
+            {
+                bird.Draw(gameTime, spriteBatch);
+            }
+
         }
 
         public void DrawLevelInformation(GameTime gameTime, SpriteBatch spriteBatch)

@@ -8,7 +8,7 @@ namespace RunEscape
     {
         // OMG! This is the container class to what you are jumping across right now!\
         public int CurrentSpeed { get; set; }
-        public SpriteFont font;
+        public SpriteFont Font { get; set; }
         private Color wordColor;
         public LevelWordPair WordToDisplay { get; set; }
         //private Rectangle collision;
@@ -21,11 +21,11 @@ namespace RunEscape
 
             this.Position = startingPosition;
 
-            this.font = font;
+            this.Font = font;
             this.Texture = texture;
 
             Collision = new Rectangle();
-            Vector2 textSize = this.font.MeasureString(WordToDisplay.Word);
+            Vector2 textSize = this.Font.MeasureString(WordToDisplay.Word);
 
             Collision.X = (int)this.Position.X;
             Collision.Y = (int)this.Position.Y;
@@ -54,7 +54,7 @@ namespace RunEscape
         {
             spriteBatch.Draw(Texture, Collision, Color.White);
 
-            spriteBatch.DrawString(font, WordToDisplay.Word, Position, wordColor);
+            spriteBatch.DrawString(Font, WordToDisplay.Word, Position, wordColor);
         }
 
         public bool IsWordAKeyword()
