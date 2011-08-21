@@ -17,6 +17,7 @@ namespace RunEscape
         public Word(LevelWordPair word, Vector2 startingPosition, SpriteFont font, Texture2D texture)
         {
             WordToDisplay = word;
+            WordToDisplay.Keyword = IsWordAKeyword();
 
             this.Position = startingPosition;
 
@@ -33,7 +34,7 @@ namespace RunEscape
 
             if (this.WordToDisplay.Comment)
                 wordColor = Color.DarkGreen;
-            else if (IsWordAKeyword())
+            else if (this.WordToDisplay.Keyword)
                 wordColor = Color.Blue;
             else
                 wordColor = Color.Black;

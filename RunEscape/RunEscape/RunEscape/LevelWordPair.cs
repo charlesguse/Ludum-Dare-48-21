@@ -6,6 +6,7 @@ namespace RunEscape
         public string Level;
         public string Word;
         public bool Comment;
+        public bool Keyword;
 
         public LevelWordPair(string level, string word, bool comment)
         {

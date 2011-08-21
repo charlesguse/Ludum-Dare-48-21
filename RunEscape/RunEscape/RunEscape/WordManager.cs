@@ -43,7 +43,6 @@ namespace RunEscape
             this.texture = content.Load<Texture2D>("ObjectBackground");
             this.font = content.Load<SpriteFont>("Word");
 
-
             string[] filePaths = Directory.GetFiles(".", "*.cs");
             var levels = new Dictionary<String, Queue<string>>();
 
