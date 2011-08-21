@@ -171,7 +171,7 @@ namespace RunEscape
                 foreach (var word in newWords)
                 {
                     StreamingWords.Enqueue(word);
-                    if (word.WordToDisplay.Keyword)
+                    if (RandomProvider.Random.Next(5) < 2)
                         Birds.Enqueue(new Birds(word));
                 }
             }
